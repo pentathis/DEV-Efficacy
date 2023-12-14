@@ -1,5 +1,5 @@
 # DEV-Efficacy
-Code accompanying ...
+Code accompanying "Efficacy of dynamic eigenvalue in anticipating and distinguishing tipping points"
 
 Notes on the files in this repository:
 - Always open `DEV_Analysis.Rproj` first before running the code from any file.
