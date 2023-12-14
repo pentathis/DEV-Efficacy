@@ -14,3 +14,5 @@ Notes on the files in this repository:
   - `/plots/rate_analysis/rate_anal_plots.R`: Fig. 2
   - `/plots/red_noise/red_noise_plots.R`: Fig. 5
   - `/plots/sensitivity_analysis/discrete_sensitivity_plots.R`: Fig. 6, S4, S5
+
+All the simulations were performed in `R (version 4.3.2)`. S-maps were implemented using `rEDM (version 1.14.0)`.
