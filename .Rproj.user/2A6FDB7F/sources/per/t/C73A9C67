@@ -1,0 +1,26 @@
+{
+    "id": "C73A9C67",
+    "path": "~/Kaustubh/GitHub/DEV-Efficacy/plots/analytical_eigenvalue_plots/analytical_eigenvalue_superimposed.R",
+    "project_path": "plots/analytical_eigenvalue_plots/analytical_eigenvalue_superimposed.R",
+    "type": "r_source",
+    "hash": "1592700021",
+    "contents": "",
+    "dirty": false,
+    "created": 1731265984039.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "69,0",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1724682239,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1724682239,
+    "read_only": false,
+    "read_only_alternatives": []
+}

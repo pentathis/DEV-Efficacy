@@ -27,6 +27,3 @@ delta_DEV_heatmap('discrete_fold')
 delta_DEV_heatmap('discrete_transcritical')
 delta_DEV_heatmap('discrete_pitchfork')
 
-kendall_tau_heatmap('discrete_fold')
-kendall_tau_heatmap('discrete_transcritical')
-kendall_tau_heatmap('discrete_pitchfork')

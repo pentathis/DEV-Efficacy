@@ -1,7 +1,7 @@
 source('continuous_model_functions.R')
 
 
-# Read the saved files
+# Read the saved files for mean of DEV values
 fold_DEV <- read.csv('data/avg_DEV_continuous/fold.csv', row.names = 1)
 transcritical_DEV <- read.csv('data/avg_DEV_continuous/transcritical.csv', row.names = 1)
 hopf_DEV <- read.csv('data/avg_DEV_continuous/hopf.csv', row.names = 1)
@@ -18,8 +18,37 @@ wo_csd_C_A_DEV <- read.csv('data/avg_DEV_continuous/wo_csd_C_A.csv', row.names =
 hopf_mult_DEV <- read.csv('data/avg_DEV_continuous/hopf_mult.csv', row.names = 1)
 wo_csd_mult_DEV <- read.csv('data/avg_DEV_continuous/wo_csd_mult.csv', row.names = 1)
 
+# Read the saved files for the standard deviation of DEV values
+fold_DEV_sd <- read.csv('data/sd_DEV_continuous/fold.csv', row.names = 1)
+transcritical_DEV_sd <- read.csv('data/sd_DEV_continuous/transcritical.csv', row.names = 1)
+hopf_DEV_sd <- read.csv('data/sd_DEV_continuous/hopf.csv', row.names = 1)
+pitchfork_DEV_sd <- read.csv('data/sd_DEV_continuous/pitchfork.csv', row.names = 1)
+wo_csd_DEV_sd <- read.csv('data/sd_DEV_continuous/wo_csd.csv', row.names = 1)
+no_trans_DEV_sd <- read.csv('data/sd_DEV_continuous/no_trans.csv', row.names = 1)
+wo_bif_DEV_sd <- read.csv('data/sd_DEV_continuous/wo_bif.csv', row.names = 1)
+
+hopf_P_DEV_sd <- read.csv('data/sd_DEV_continuous/hopf_P.csv', row.names = 1)
+wo_csd_R_J_DEV_sd <- read.csv('data/sd_DEV_continuous/wo_csd_R_J.csv', row.names = 1)
+wo_csd_R_A_DEV_sd <- read.csv('data/sd_DEV_continuous/wo_csd_R_A.csv', row.names = 1)
+wo_csd_C_A_DEV_sd <- read.csv('data/sd_DEV_continuous/wo_csd_C_A.csv', row.names = 1)
+
+hopf_mult_DEV_sd <- read.csv('data/sd_DEV_continuous/hopf_mult.csv', row.names = 1)
+wo_csd_mult_DEV_sd <- read.csv('data/sd_DEV_continuous/wo_csd_mult.csv', row.names = 1)
+
 
 #Plots
+dummy_plot <- function(ylim=c(0, 1.1)){
+  plot(-1, -1, ylim = ylim, xlim = c(0, 1e4), ylab = 'N', xlab = NA)
+}
+
+# Function to draw mean +- sd
+mean_pm_sd <- function(biftype, col, column){
+  bif_DEV <- get(paste0(biftype, '_DEV'))
+  bif_DEV_sd <- get(paste0(biftype, '_DEV_sd'))
+  polygon(x=c(bif_DEV[, 1], rev(bif_DEV[,1])),
+          y=c(bif_DEV[,column] + bif_DEV_sd[, column], rev(bif_DEV[,column] - bif_DEV_sd[, column])),
+          col=col, density=NA)
+}
 
 # The main plots for the 7 systems
 # Save with size 1000 px width by 1250 px height
@@ -37,7 +66,11 @@ axis(side = 3, labels = seq(1, 3,length.out = 6), at = seq(1, 1e4, length.out = 
 mtext('Control parameter (c)', side = 3, line = 2.3, cex = 1)
 mtext('A', at = -2400, line = 1.8, cex = 1.6)
 
-plot(fold_DEV[,1], fold_DEV[,2], 
+# |DEV|
+dummy_plot()
+mean_pm_sd('fold', 'lightpink', 2)
+
+lines(fold_DEV[,1], fold_DEV[,2], 
      type = 'l', 
      ylab = '|DEV|', 
      xlab = NA,
@@ -47,7 +80,12 @@ plot(fold_DEV[,1], fold_DEV[,2],
      col = '#b2173c')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(fold_DEV[,1], fold_DEV[,3], 
+
+# Re(DEV)
+dummy_plot()
+mean_pm_sd('fold', 'lightpink', 3)
+
+lines(fold_DEV[,1], fold_DEV[,3], 
      type = 'l', 
      ylab = 'Re(DEV)', 
      xlab = NA,
@@ -56,7 +94,19 @@ plot(fold_DEV[,1], fold_DEV[,3],
      lwd = 3, 
      col = '#b2173c')
 abline(h = 1, lty = 2, col = 'gray')
-plot(fold_DEV[,1], fold_DEV[,4], type = 'l', ylab = 'Im(DEV)', xlab = 'Time',ylim = c(-1, 1), xlim = c(0, 1e4), lwd = 3, col = '#b2173c')
+
+# Im(DEV)
+dummy_plot(ylim=c(-1, 1))
+mean_pm_sd('fold', 'lightpink', 4)
+
+lines(fold_DEV[,1], fold_DEV[,4],
+     type = 'l', 
+     ylab = 'Im(DEV)', 
+     xlab = 'Time',
+     ylim = c(-1, 1),
+     xlim = c(0, 1e4),
+     lwd = 3, 
+     col = '#b2173c')
 abline(h = 0, lty = 2, col = 'gray')
 
 
@@ -83,7 +133,11 @@ axis(side = 3, labels = seq(2, 0,length.out = 6), at = seq(1, 1e4, length.out = 
 mtext('Control parameter (c)', side = 3, line = 2.3, cex = 1)
 mtext('B', at = -2400, line = 1.8, cex = 1.6)
 
-plot(transcritical_DEV[,1], transcritical_DEV[,2], 
+# |DEV|
+dummy_plot()
+mean_pm_sd('transcritical', 'plum1', 2)
+
+lines(transcritical_DEV[,1], transcritical_DEV[,2], 
      type = 'l', 
      ylab = '|DEV|', 
      xlab = NA,
@@ -93,7 +147,11 @@ plot(transcritical_DEV[,1], transcritical_DEV[,2],
      col = '#8b3591')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(transcritical_DEV[,1], transcritical_DEV[,3], 
+# Re(DEV)
+dummy_plot()
+mean_pm_sd('transcritical', 'plum1', 3)
+
+lines(transcritical_DEV[,1], transcritical_DEV[,3], 
      type = 'l', 
      ylab = 'Re(DEV)', 
      xlab = NA,
@@ -103,7 +161,11 @@ plot(transcritical_DEV[,1], transcritical_DEV[,3],
      col = '#8b3591')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(transcritical_DEV[,1], transcritical_DEV[,4], 
+# Im(DEV)
+dummy_plot(ylim=c(-1, 1))
+mean_pm_sd('transcritical', 'plum1', 4)
+
+lines(transcritical_DEV[,1], transcritical_DEV[,4], 
      type = 'l', 
      ylab = 'Im(DEV)', 
      xlab = NA,
@@ -127,7 +189,11 @@ axis(side = 3, labels = seq(2, 4, length.out = 6), at = seq(1, 1e4, length.out =
 mtext('Control parameter (K)', side = 3, line = 2.3, cex = 1)
 mtext('C', at = -2400, line = 1.8, cex = 1.6)
 
-plot(hopf_DEV[,1], hopf_DEV[,2], 
+# |DEV|
+dummy_plot()
+mean_pm_sd('hopf', 'palegreen1', 2)
+
+lines(hopf_DEV[,1], hopf_DEV[,2], 
      type = 'l', 
      ylab = '|DEV|', 
      xlab = NA,
@@ -137,7 +203,11 @@ plot(hopf_DEV[,1], hopf_DEV[,2],
      col = '#72b322')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(hopf_DEV[,1], hopf_DEV[,3], 
+# Re(DEV)
+dummy_plot()
+mean_pm_sd('hopf', 'palegreen1', 3)
+
+lines(hopf_DEV[,1], hopf_DEV[,3], 
      type = 'l', 
      ylab = 'Re(DEV)', 
      xlab = NA,
@@ -147,7 +217,11 @@ plot(hopf_DEV[,1], hopf_DEV[,3],
      col = '#72b322')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(hopf_DEV[,1], hopf_DEV[,4], 
+# Im(DEV)
+dummy_plot(ylim=c(-1, 1))
+mean_pm_sd('hopf', 'palegreen1', 4)
+
+lines(hopf_DEV[,1], hopf_DEV[,4], 
      type = 'l',
      ylab = 'Im(DEV)', 
      xlab = NA,
@@ -156,6 +230,7 @@ plot(hopf_DEV[,1], hopf_DEV[,4],
      lwd = 3, 
      col = '#72b322')
 abline(h = 0, lty = 2, col = 'gray')
+
 
 # Pitchfork
 plot(pitchfork(), 
@@ -169,7 +244,11 @@ axis(side = 3, labels = seq(0, 1, length.out = 6), at = seq(1, 1e4, length.out =
 mtext('Control parameter (r)', side = 3, line = 2.3, cex = 1)
 mtext('D', at = -2400, line = 1.8, cex = 1.6)
 
-plot(pitchfork_DEV[,1], pitchfork_DEV[,2],
+# |DEV|
+dummy_plot()
+mean_pm_sd('pitchfork', 'lightblue', 2)
+
+lines(pitchfork_DEV[,1], pitchfork_DEV[,2],
      type = 'l', 
      ylab = '|DEV|', 
      xlab = NA,
@@ -179,7 +258,10 @@ plot(pitchfork_DEV[,1], pitchfork_DEV[,2],
      col = '#1480bf')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(pitchfork_DEV[,1], pitchfork_DEV[,3], 
+# Re(DEV)
+dummy_plot()
+mean_pm_sd('pitchfork', 'lightblue', 3)
+lines(pitchfork_DEV[,1], pitchfork_DEV[,3], 
      type = 'l',
      ylab = 'Re(DEV)', 
      xlab = NA,
@@ -189,7 +271,10 @@ plot(pitchfork_DEV[,1], pitchfork_DEV[,3],
      col = '#1480bf')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(pitchfork_DEV[,1], pitchfork_DEV[,4], 
+# Im(DEV)
+dummy_plot(ylim=c(-1, 1))
+mean_pm_sd('pitchfork', 'lightblue', 4)
+lines(pitchfork_DEV[,1], pitchfork_DEV[,4], 
      type = 'l', 
      ylab = 'Im(DEV)', 
      xlab = NA,
@@ -213,7 +298,11 @@ axis(side = 3, labels = seq(20, 150,length.out = 6), at = seq(1, 1e4, length.out
 mtext(expression('Control parameter ('*K[J]*')'), side = 3, line = 2, cex = 0.9)
 mtext('E', at = -2400, line = 1.8, cex = 1.6)
 
-plot(wo_csd_DEV[,1], wo_csd_DEV[,2], 
+# |DEV|
+dummy_plot()
+mean_pm_sd('wo_csd', 'lightgrey', 2)
+
+lines(wo_csd_DEV[,1], wo_csd_DEV[,2], 
      type = 'l', 
      ylab = '|DEV|', 
      xlab = NA,
@@ -223,7 +312,11 @@ plot(wo_csd_DEV[,1], wo_csd_DEV[,2],
      col = '#656364')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(wo_csd_DEV[,1], wo_csd_DEV[,3],
+# Re(DEV)
+dummy_plot()
+mean_pm_sd('wo_csd', 'lightgrey', 3)
+
+lines(wo_csd_DEV[,1], wo_csd_DEV[,3],
      type = 'l', 
      ylab = 'Re(DEV)', 
      xlab = NA,
@@ -233,7 +326,11 @@ plot(wo_csd_DEV[,1], wo_csd_DEV[,3],
      col = '#656364')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(wo_csd_DEV[,1], wo_csd_DEV[,4], 
+# Im(DEV)
+dummy_plot(ylim=c(-1, 1))
+mean_pm_sd('wo_csd', 'lightgrey', 4)
+
+lines(wo_csd_DEV[,1], wo_csd_DEV[,4], 
      type = 'l', 
      ylab = 'Im(DEV)', 
      xlab = NA,
@@ -257,7 +354,11 @@ axis(side = 3, labels = seq(1, 3,length.out = 6), at = seq(1, 1e4, length.out = 
 mtext('Control parameter (c)', side = 3, line = 2.3, cex = 1)
 mtext('F', at = -2400, line = 1.8, cex = 1.6)
 
-plot(no_trans_DEV[,1], no_trans_DEV[,2],
+# |DEV|
+dummy_plot()
+mean_pm_sd('no_trans', 'khaki1', 2)
+
+lines(no_trans_DEV[,1], no_trans_DEV[,2],
      type = 'l',
      ylab = '|DEV|', 
      xlab = NA,
@@ -267,7 +368,11 @@ plot(no_trans_DEV[,1], no_trans_DEV[,2],
      col = '#f0b816')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(no_trans_DEV[,1], no_trans_DEV[,3], 
+# Re(DEV)
+dummy_plot()
+mean_pm_sd('no_trans', 'khaki1', 3)
+
+lines(no_trans_DEV[,1], no_trans_DEV[,3], 
      type = 'l', 
      ylab = 'Re(DEV)', 
      xlab = NA, 
@@ -277,7 +382,11 @@ plot(no_trans_DEV[,1], no_trans_DEV[,3],
      col = '#f0b816')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(no_trans_DEV[,1], no_trans_DEV[,4], 
+# Im(DEV)
+dummy_plot(ylim=c(-1, 1))
+mean_pm_sd('no_trans', 'khaki1', 4)
+
+lines(no_trans_DEV[,1], no_trans_DEV[,4], 
      type = 'l',
      ylab = 'Im(DEV)',
      xlab = NA,
@@ -301,7 +410,11 @@ axis(side = 3, labels = seq(1, 3,length.out = 6), at = seq(1, 1e4, length.out = 
 mtext('Control parameter (c)', side = 3, line = 2.3, cex = 1)
 mtext('G', at = -2400, line = 1.8, cex = 1.6)
 
-plot(wo_bif_DEV[,1], wo_bif_DEV[,2], 
+# |DEV|
+dummy_plot()
+mean_pm_sd('wo_bif', 'wheat1', 2)
+
+lines(wo_bif_DEV[,1], wo_bif_DEV[,2], 
      type = 'l', 
      ylab = '|DEV|', 
      xlab = 'Time', 
@@ -311,7 +424,11 @@ plot(wo_bif_DEV[,1], wo_bif_DEV[,2],
      col = '#a0686c')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(wo_bif_DEV[,1], wo_bif_DEV[,3], 
+# 
+dummy_plot()
+mean_pm_sd('wo_bif', 'wheat1', 3)
+
+lines(wo_bif_DEV[,1], wo_bif_DEV[,3], 
      type = 'l', 
      ylab = 'Re(DEV)', 
      xlab = 'Time', 
@@ -321,7 +438,11 @@ plot(wo_bif_DEV[,1], wo_bif_DEV[,3],
      col = '#a0686c')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(wo_bif_DEV[,1], wo_bif_DEV[,4], 
+# Im(DEV)
+dummy_plot(ylim=c(-1, 1))
+mean_pm_sd('wo_bif', 'wheat1', 4)
+
+lines(wo_bif_DEV[,1], wo_bif_DEV[,4], 
      type = 'l', 
      ylab = 'Im(DEV)', 
      xlab = 'Time', 
@@ -351,7 +472,11 @@ axis(side = 3, labels = seq(2, 4, length.out = 6), at = seq(1, 1e4, length.out =
 mtext('Control parameter (K)', side = 3, line = 2.3, cex = 1)
 mtext('A', at = -2400, line = 1.8, cex = 1.6)
 
-plot(hopf_P_DEV[,1], hopf_P_DEV[,2], 
+# |DEV|
+dummy_plot()
+mean_pm_sd('hopf_P', 'palegreen1', 2)
+
+lines(hopf_P_DEV[,1], hopf_P_DEV[,2], 
      type = 'l',
      ylab = '|DEV|', 
      xlab = 'Time', 
@@ -361,7 +486,11 @@ plot(hopf_P_DEV[,1], hopf_P_DEV[,2],
      col = '#72b322')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(hopf_P_DEV[,1], hopf_P_DEV[,3], 
+# Re(DEV)
+dummy_plot()
+mean_pm_sd('hopf_P', 'palegreen1', 3)
+
+lines(hopf_P_DEV[,1], hopf_P_DEV[,3], 
      type = 'l', 
      ylab = 'Re(DEV)', 
      xlab = 'Time', 
@@ -371,7 +500,11 @@ plot(hopf_P_DEV[,1], hopf_P_DEV[,3],
      col = '#72b322')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(hopf_P_DEV[,1], hopf_P_DEV[,4], 
+# Im(DEV)
+dummy_plot(ylim=c(-1, 1))
+mean_pm_sd('hopf_P', 'palegreen1', 4)
+
+lines(hopf_P_DEV[,1], hopf_P_DEV[,4], 
      type = 'l',
      ylab = 'Im(DEV)', 
      xlab = 'Time',
@@ -384,7 +517,12 @@ abline(h = 0, lty = 2, col = 'gray')
 
 plot.new()
 mtext('B', at = -0.25, line = 1.8, cex = 1.6)
-plot(hopf_mult_DEV[,1], hopf_mult_DEV[,2],
+
+# |DEV|
+dummy_plot()
+mean_pm_sd('hopf_mult', 'palegreen1', 2)
+
+lines(hopf_mult_DEV[,1], hopf_mult_DEV[,2],
      type = 'l', 
      ylab = '|DEV|', 
      xlab = 'Time', 
@@ -394,7 +532,11 @@ plot(hopf_mult_DEV[,1], hopf_mult_DEV[,2],
      col = '#72b322')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(hopf_mult_DEV[,1], hopf_mult_DEV[,3], 
+# Re(DEV)
+dummy_plot()
+mean_pm_sd('hopf_mult', 'palegreen1', 3)
+
+lines(hopf_mult_DEV[,1], hopf_mult_DEV[,3], 
      type = 'l', 
      ylab = 'Re(DEV)', 
      xlab = 'Time', 
@@ -404,7 +546,11 @@ plot(hopf_mult_DEV[,1], hopf_mult_DEV[,3],
      col = '#72b322')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(hopf_mult_DEV[,1], hopf_mult_DEV[,4], 
+# Im(DEV)
+dummy_plot(ylim=c(-1, 1))
+mean_pm_sd('hopf_mult', 'palegreen1', 4)
+
+lines(hopf_mult_DEV[,1], hopf_mult_DEV[,4], 
      type = 'l', 
      ylab = 'Im(DEV)', 
      xlab = 'Time', 
@@ -435,7 +581,11 @@ axis(side = 3, labels = seq(20, 150,length.out = 6), at = seq(1, 1e4, length.out
 mtext(expression('Control parameter ('*K[J]*')'), side = 3, line = 2, cex = 1)
 mtext('A', at = -2400, line = 1.8, cex = 1.6)
 
-plot(wo_csd_R_J_DEV[,1], wo_csd_R_J_DEV[,2],
+# |DEV|
+dummy_plot()
+mean_pm_sd('wo_csd_R_J', 'lightgrey', 2)
+
+lines(wo_csd_R_J_DEV[,1], wo_csd_R_J_DEV[,2],
      type = 'l', 
      ylab = '|DEV|', 
      xlab = 'Time', 
@@ -445,7 +595,11 @@ plot(wo_csd_R_J_DEV[,1], wo_csd_R_J_DEV[,2],
      col = '#656364')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(wo_csd_R_J_DEV[,1], wo_csd_R_J_DEV[,3],
+# Re(DEV)
+dummy_plot()
+mean_pm_sd('wo_csd_R_J', 'lightgrey', 3)
+
+lines(wo_csd_R_J_DEV[,1], wo_csd_R_J_DEV[,3],
      type = 'l', 
      ylab = 'Re(DEV)', 
      xlab = 'Time', 
@@ -455,7 +609,10 @@ plot(wo_csd_R_J_DEV[,1], wo_csd_R_J_DEV[,3],
      col = '#656364')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(wo_csd_R_J_DEV[,1], wo_csd_R_J_DEV[,4],
+# Im(DEV)
+dummy_plot(ylim=c(-1, 1))
+mean_pm_sd('wo_csd_R_J', 'lightgrey', 4)
+lines(wo_csd_R_J_DEV[,1], wo_csd_R_J_DEV[,4],
      type = 'l', 
      ylab = 'Im(DEV)', 
      xlab = 'Time',
@@ -465,8 +622,7 @@ plot(wo_csd_R_J_DEV[,1], wo_csd_R_J_DEV[,4],
      col = '#656364')
 abline(h = 0, lty = 2, col = 'gray')
 
-
-
+# Variable R_A
 plot(wo_csd_ts[,1], wo_csd_ts[,3], 
      type = 'l',
      ylab =  expression(R[A]), 
@@ -479,7 +635,11 @@ axis(side = 3, labels = seq(20, 150,length.out = 6), at = seq(1, 1e4, length.out
 mtext(expression('Control parameter ('*K[J]*')'), side = 3, line = 2, cex = 0.9)
 mtext('B', at = -2400, line = 1.8, cex = 1.6)
 
-plot(wo_csd_R_A_DEV[,1], wo_csd_R_A_DEV[,2],
+# |DEV|
+dummy_plot()
+mean_pm_sd('wo_csd_R_A', 'lightgrey', 2)
+
+lines(wo_csd_R_A_DEV[,1], wo_csd_R_A_DEV[,2],
      type = 'l', 
      ylab = '|DEV|', 
      xlab = 'Time', 
@@ -489,7 +649,11 @@ plot(wo_csd_R_A_DEV[,1], wo_csd_R_A_DEV[,2],
      col = '#656364')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(wo_csd_R_A_DEV[,1], wo_csd_R_A_DEV[,3], 
+# Re(DEV)
+dummy_plot()
+mean_pm_sd('wo_csd_R_A', 'lightgrey', 3)
+
+lines(wo_csd_R_A_DEV[,1], wo_csd_R_A_DEV[,3], 
      type = 'l', 
      ylab = 'Re(DEV)', 
      xlab = 'Time', 
@@ -499,7 +663,11 @@ plot(wo_csd_R_A_DEV[,1], wo_csd_R_A_DEV[,3],
      col = '#656364')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(wo_csd_R_A_DEV[,1], wo_csd_R_A_DEV[,4], 
+#Im(DEV)
+dummy_plot(ylim=c(-1, 1))
+mean_pm_sd('wo_csd_R_A', 'lightgrey', 4)
+
+lines(wo_csd_R_A_DEV[,1], wo_csd_R_A_DEV[,4], 
      type = 'l', 
      ylab = 'Im(DEV)', 
      xlab = 'Time',
@@ -510,7 +678,7 @@ plot(wo_csd_R_A_DEV[,1], wo_csd_R_A_DEV[,4],
 abline(h = 0, lty = 2, col = 'gray')
 
 
-
+# varaible C_A
 plot(wo_csd_ts[,1], wo_csd_ts[,5], 
      type = 'l', 
      ylab =  expression(C[A]), 
@@ -523,7 +691,11 @@ axis(side = 3, labels = seq(20, 150,length.out = 6), at = seq(1, 1e4, length.out
 mtext(expression('Control parameter ('*K[J]*')'), side = 3, line = 2, cex = 0.9)
 mtext('C', at = -2400, line = 1.8, cex = 1.6)
 
-plot(wo_csd_C_A_DEV[,1], wo_csd_C_A_DEV[,2], 
+# |DEV|
+dummy_plot()
+mean_pm_sd('wo_csd_C_A', 'lightgrey', 2)
+
+lines(wo_csd_C_A_DEV[,1], wo_csd_C_A_DEV[,2], 
      type = 'l', 
      ylab = '|DEV|', 
      xlab = 'Time', 
@@ -533,7 +705,11 @@ plot(wo_csd_C_A_DEV[,1], wo_csd_C_A_DEV[,2],
      col = '#656364')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(wo_csd_C_A_DEV[,1], wo_csd_C_A_DEV[,3], 
+# Re(DEV)
+dummy_plot()
+mean_pm_sd('wo_csd_C_A', 'lightgrey', 3)
+
+lines(wo_csd_C_A_DEV[,1], wo_csd_C_A_DEV[,3], 
      type = 'l', 
      ylab = 'Re(DEV)', 
      xlab = 'Time',
@@ -543,7 +719,11 @@ plot(wo_csd_C_A_DEV[,1], wo_csd_C_A_DEV[,3],
      col = '#656364')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(wo_csd_C_A_DEV[,1], wo_csd_C_A_DEV[,4],
+#Im(DEV)
+dummy_plot(ylim=c(-1, 1))
+mean_pm_sd('wo_csd_C_A', 'lightgrey', 4)
+
+lines(wo_csd_C_A_DEV[,1], wo_csd_C_A_DEV[,4],
      type = 'l', 
      ylab = 'Im(DEV)', 
      xlab = 'Time',
@@ -554,13 +734,19 @@ plot(wo_csd_C_A_DEV[,1], wo_csd_C_A_DEV[,4],
 abline(h = 0, lty = 2, col = 'gray')
 
 
+# Multuivariate DEV
 plot.new()
 # plot(wo_csd_ts[,1], wo_csd_ts[,3], type = 'l', ylab = 'N', xlab = 'Time', ylim = c(0, 150), lwd = 3, col = '#656364')
 # abline(v = 5000, col = 'gray', lwd = 2)
 # axis(side = 3, labels = seq(1, 3,length.out = 6), at = seq(1, 1e4, length.out = 6))
 # mtext(expression('Control parameter ('*K[J]*')'), side = 3, line = 2, cex = 0.9)
 mtext('D', at = -0.25, line = 1.8, cex = 1.6)
-plot(wo_csd_mult_DEV[,1], wo_csd_mult_DEV[,2], 
+
+#|DEV|
+dummy_plot()
+mean_pm_sd('wo_csd_mult', 'lightgrey', 2)
+
+lines(wo_csd_mult_DEV[,1], wo_csd_mult_DEV[,2], 
      type = 'l', 
      ylab = '|DEV|', 
      xlab = 'Time', 
@@ -570,7 +756,11 @@ plot(wo_csd_mult_DEV[,1], wo_csd_mult_DEV[,2],
      col = '#656364')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(wo_csd_mult_DEV[,1], wo_csd_mult_DEV[,3],
+# Re(DEV)
+dummy_plot()
+mean_pm_sd('wo_csd_mult', 'lightgrey', 3)
+
+lines(wo_csd_mult_DEV[,1], wo_csd_mult_DEV[,3],
      type = 'l', 
      ylab = 'Re(DEV)',
      xlab = 'Time',
@@ -580,7 +770,10 @@ plot(wo_csd_mult_DEV[,1], wo_csd_mult_DEV[,3],
      col = '#656364')
 abline(h = 1, lty = 2, col = 'gray')
 
-plot(wo_csd_mult_DEV[,1], wo_csd_mult_DEV[,4], 
+# Im(DEV)
+dummy_plot(ylim=c(-1, 1))
+mean_pm_sd('wo_csd_mult', 'lightgrey', 4)
+lines(wo_csd_mult_DEV[,1], wo_csd_mult_DEV[,4], 
      type = 'l', 
      ylab = 'Im(DEV)', 
      xlab = 'Time',

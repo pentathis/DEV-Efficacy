@@ -3,7 +3,7 @@ library(vioplot)
 
 # Throughout this file, correlations refer to noise correlation
 
-rate_anal <- function(bifurcation, correlations = seq(0, 0.9, by = 0.1)){
+red_noise <- function(bifurcation, correlations = seq(0, 0.9, by = 0.1)){
   
   
   DEV_begin <- matrix(NA, length(correlations), 100, dimnames = list(paste0('corr', correlations),
@@ -95,14 +95,14 @@ violins <- function(DEV_data, letters, xlabel = NA, bif_name, axislabels = seq(0
 }
 
 
-fold_rate_anal <- rate_anal('fold')
-transcritical_rate_anal <- rate_anal('pd')
-pitchfork_rate_anal <- rate_anal('ns')
+fold_red_noise <- red_noise('fold')
+pd_red_noise <- red_noise('pd')
+ns_red_noise <- red_noise('ns')
 
 par(mfrow = c(3, 2), cex.lab = 1.7, cex.axis = 1.3,  mai = c(0.6, 0.7, 0.6, 0.4))
 
-violins(fold_rate_anal, c('A', 'B'), bif_name = 'Fold', col1 = 'lightpink', col2 = 'red')
-violins(transcritical_rate_anal, c('C', 'D'), bif_name = 'Period-doubling', col1 = 'plum1', col2 = 'purple')
-violins(pitchfork_rate_anal, c('E', 'F'), xlabel = 'Noise correlation', bif_name = 'Neimark-Sacker', col1 = 'lightblue', col2 = 'blue')
+violins(fold_red_noise, c('A', 'B'), bif_name = 'Fold', col1 = 'lightpink', col2 = 'red')
+violins(pd_red_noise, c('C', 'D'), bif_name = 'Period-doubling', col1 = 'plum1', col2 = 'purple')
+violins(ns_red_noise, c('E', 'F'), xlabel = 'Noise correlation', bif_name = 'Neimark-Sacker', col1 = 'lightblue', col2 = 'blue')
 
 # Save with size 1084 px width by 916 px height
