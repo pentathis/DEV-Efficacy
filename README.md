@@ -1,3 +1,5 @@
+🔴**Note: This code and the below information refer to the pre-print available at https://doi.org/10.1101/2024.01.09.574944. The paper is now published in Theoretical Ecology, and is available at https://doi.org/10.1007/s12080-024-00593-5. For the updated code that accompanies the published article, see the latest release: https://github.com/pentathis/DEV-Efficacy/releases/tag/final-code.** 🔴
+
 # DEV-Efficacy
 Code accompanying "Efficacy of dynamic eigenvalue in anticipating and distinguishing tipping points"
 
